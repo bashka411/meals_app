@@ -1,30 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../data.dart';
-import '../widgets/category_item.dart';
+import '/models/meal.dart';
+import '/widgets/category_item.dart';
 
 class CategoriesListScreen extends StatelessWidget {
+  final List<Meal> availableMeals;
+  CategoriesListScreen(this.availableMeals);
+
   @override
   Widget build(BuildContext context) {
-    // appBar: AppBar(
-    //   backgroundColor: Colors.white,
-    //   centerTitle: true,
-    //   title: Text(
-    //     'Pjortzence',
-    //     style: Theme.of(context).textTheme.bodyLarge,
-    //   ),
-    //   flexibleSpace: Container(
-    //     decoration: BoxDecoration(
-    //       gradient: LinearGradient(
-    //           begin: Alignment.centerLeft,
-    //           end: Alignment.centerRight,
-    //           colors: [
-    //             Theme.of(context).primaryColor.withOpacity(0.7),
-    //             Theme.of(context).primaryColor
-    //           ]),
-    //     ),
-    //   ),
-    // ),
     return Container(
       color: Theme.of(context).primaryColor.withOpacity(0.15),
       child: GridView(
@@ -37,7 +22,10 @@ class CategoriesListScreen extends StatelessWidget {
         ),
         children: CATEGORIES
             .map((category) => CategoryItem(
-                id: category.id, title: category.title, color: category.color))
+                id: category.id,
+                title: category.title,
+                color: category.color,
+                availableMeals: availableMeals))
             .toList(),
       ),
     );

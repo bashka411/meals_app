@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/widgets/main_drawer.dart';
 
-import './categories_list_screen.dart';
-import './favourites_screen.dart';
+import '/models/meal.dart';
+import '/models/filters.dart';
+import '/widgets/filters_drawer.dart';
+import 'categories_list_screen.dart';
+import 'favourites_screen.dart';
 
 class TabsScreen extends StatefulWidget {
   @override
   State<TabsScreen> createState() => _TabsScreenState();
+  final List<Meal> availableMeals;
+  final Function setFilters;
+  final Filters filters;
+  TabsScreen(this.setFilters, this.availableMeals, this.filters);
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  final List<Map<String, Object>> _pages = [
-    {
-      'page': CategoriesListScreen(),
-      'title': 'Categories',
-    },
-    {
-      'page': FavouritesScreen(),
-      'title': 'Favourites',
-    },
-  ];
   int _selectedPageIndex = 0;
 
   void _selectPage(int index) {
@@ -30,13 +26,29 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, Object>> _pages = [
+      {
+        'page': CategoriesListScreen(widget.availableMeals),
+        'title': 'Categories',
+      },
+      {
+        'page': FavouritesScreen(),
+        'title': 'Favourites',
+      },
+    ];
+
     return Scaffold(
+      onEndDrawerChanged: (isOpened) => {},
+      endDrawer: FiltersDrawer(widget.setFilters, widget.filters),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         actions: [
-          IconButton(
-            icon: Icon(Icons.filter_alt_rounded),
-            onPressed: () {},
-          )
+          Builder(builder: (context) {
+            return IconButton(
+              icon: Icon(Icons.filter_alt_rounded),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+            );
+          })
         ],
         backgroundColor: Colors.white,
         centerTitle: true,
@@ -77,7 +89,6 @@ class _TabsScreenState extends State<TabsScreen> {
         ],
       ),
     );
-
     // return DefaultTabController(
     //   length: 2,
     //   child: Scaffold(

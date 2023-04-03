@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/data.dart';
-import '../screens/selected_category_meals_screen.dart';
+import '/models/meal.dart';
+import '/screens/selected_category_meals_screen.dart';
 
 class CategoryItem extends StatelessWidget {
   final String id;
   final String title;
   final Color color;
+  final List<Meal> availableMeals;
 
-  CategoryItem({this.id, this.title, this.color});
+  CategoryItem({this.id, this.title, this.color, this.availableMeals});
 
   int get getCategoryMealsAmount {
-    return MEALS.where((meal) => meal.categoryId.contains(id)).length;
+    return availableMeals.where((meal) => meal.categoryId.contains(id)).length;
   }
 
   void showSelectedCategoryScreen(BuildContext context) {
