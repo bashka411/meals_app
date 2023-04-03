@@ -3,13 +3,9 @@
 This is a recipe app built using Flutter that allows you to search and browse through a collection of recipes. You can filter recipes by category, diet ingredients, and save your favorite recipes for easy access.
 
 ## Features
-- Search for recipes by keyword, category, cuisine, or ingredients
+- Search for recipes by category and filters
 - Browse through a collection of recipes with pictures and detailed instructions
-- Filter recipes by category, cuisine, and ingredients
 - Save your favorite recipes for easy access
-- Dark mode support
-- Responsive UI design
-
 
 ## Getting Started
 1. Clone this repository: `git clone https://github.com/bashka411/meals_app.git`
