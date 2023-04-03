@@ -31,8 +31,13 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MainDrawer(),
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(Icons.filter_alt_rounded),
+            onPressed: () {},
+          )
+        ],
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(

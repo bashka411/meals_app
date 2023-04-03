@@ -30,7 +30,9 @@ class MainDrawer extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: InkWell(
               borderRadius: BorderRadius.circular(10),
-              onTap: () => {},
+              onTap: () {
+                Navigator.pop(context);
+              },
               child: Padding(
                 padding: const EdgeInsets.all(5),
                 child: Row(
@@ -49,7 +51,8 @@ class MainDrawer extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: InkWell(
               borderRadius: BorderRadius.circular(10),
-              onTap: () => {},
+              onTap: () {
+              },
               child: Padding(
                 padding: const EdgeInsets.all(5),
                 child: Row(
