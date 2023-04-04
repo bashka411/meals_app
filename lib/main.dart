@@ -18,6 +18,7 @@ class _MyAppState extends State<MyApp> {
   Filters _filters = Filters();
 
   List<Meal> _filteredMeals = MEALS;
+  List<Meal> _favouriteMeals = [];
 
   void setFilters(Filters filterData) {
     print(
@@ -41,6 +42,25 @@ class _MyAppState extends State<MyApp> {
         return true;
       }).toList();
     });
+  }
+
+  void _toggleFavourite(String mealId) {
+    final index = _favouriteMeals.indexWhere((meal) => meal.id == mealId);
+    if (index >= 0)
+      setState(
+        () => _favouriteMeals.removeAt(index),
+      );
+    else
+      setState(
+        () => _favouriteMeals.add(
+          MEALS.firstWhere((meal) => meal.id == mealId),
+        ),
+      );
+      print('_toggleFavourite() index: $index');
+  }
+
+  bool _isMealFavourited(String mealId) {
+    return _favouriteMeals.any((meal) => meal.id == mealId);
   }
 
   @override
@@ -67,12 +87,12 @@ class _MyAppState extends State<MyApp> {
               ),
             ),
       ),
-      home: TabsScreen(setFilters, _filteredMeals, _filters),
+      home: TabsScreen(setFilters, _filteredMeals, _filters, _favouriteMeals),
       routes: {
         SelectedCategoryMealsScreen.routeName: (context) =>
             SelectedCategoryMealsScreen(_filteredMeals),
         SelectedMealDetailsScreen.routeName: (context) =>
-            SelectedMealDetailsScreen(),
+            SelectedMealDetailsScreen(_toggleFavourite, _isMealFavourited),
       },
     );
   }

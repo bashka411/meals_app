@@ -5,6 +5,10 @@ import '../data.dart';
 class SelectedMealDetailsScreen extends StatelessWidget {
   static const routeName = '/selected-meal-details-screen';
 
+  final Function toggleFavourite;
+  final Function isMealFavourited;
+  SelectedMealDetailsScreen(this.toggleFavourite, this.isMealFavourited);
+
   Widget buildSectionTitle(BuildContext context, String text) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -21,11 +25,22 @@ class SelectedMealDetailsScreen extends StatelessWidget {
         ModalRoute.of(context).settings.arguments as Map<String, Object>;
     final mealId = arguments['id'] as String;
     final categoryColor = arguments['categoryColor'] as Color;
-    print(mealId);
-    print(categoryColor);
     final meal = MEALS.firstWhere((meal) => meal.id == mealId);
 
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => toggleFavourite(mealId),
+        child: isMealFavourited(mealId)
+            ? Icon(
+                Icons.favorite_rounded,
+              )
+            : Icon(
+                Icons.favorite_outline_outlined,
+              ),
+        backgroundColor: Color.lerp(categoryColor, Colors.white, .3),
+        elevation: 2,
+      ),
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,

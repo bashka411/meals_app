@@ -10,9 +10,10 @@ class TabsScreen extends StatefulWidget {
   @override
   State<TabsScreen> createState() => _TabsScreenState();
   final List<Meal> availableMeals;
+  final List<Meal> favouriteMeals;
   final Function setFilters;
   final Filters filters;
-  TabsScreen(this.setFilters, this.availableMeals, this.filters);
+  TabsScreen(this.setFilters, this.availableMeals, this.filters, this.favouriteMeals);
 }
 
 class _TabsScreenState extends State<TabsScreen> {
@@ -32,7 +33,7 @@ class _TabsScreenState extends State<TabsScreen> {
         'title': 'Categories',
       },
       {
-        'page': FavouritesScreen(),
+        'page': FavouritesScreen(widget.favouriteMeals),
         'title': 'Favourites',
       },
     ];
