@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import '../models/meal.dart';
 import '../screens/selected_meal_details_screen.dart';
@@ -8,21 +9,18 @@ class MealItem extends StatelessWidget {
   final Color categoryColor;
 
   MealItem({
-    @required this.meal,
-    @required this.categoryColor,
+    required this.meal,
+    required this.categoryColor,
   });
 
   String get getComplexityText {
     switch (meal.complexity) {
       case Complexity.Simple:
         return 'Simple';
-        break;
       case Complexity.Challenging:
         return 'Challenging';
-        break;
       case Complexity.Hard:
         return 'Hard';
-        break;
     }
   }
 
@@ -30,13 +28,10 @@ class MealItem extends StatelessWidget {
     switch (meal.affordability) {
       case Affordability.Affordable:
         return 'Affordable';
-        break;
       case Affordability.Pricey:
         return 'Pricey';
-        break;
       case Affordability.Luxurious:
         return 'Luxurious';
-        break;
     }
   }
 
@@ -61,11 +56,14 @@ class MealItem extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15)),
-                    child: Image.network(
-                      meal.imageUrl,
+                    child: FadeInImage(
                       height: 200,
                       width: double.infinity,
                       fit: BoxFit.cover,
+                      placeholder: MemoryImage(kTransparentImage),
+                      image: NetworkImage(
+                        meal.imageUrl,
+                      ),
                     ),
                   ),
                 ),
@@ -79,7 +77,7 @@ class MealItem extends StatelessWidget {
                         topLeft: Radius.circular(10),
                       ),
                       color: Color.lerp(categoryColor, Colors.white, 0.8)
-                          .withOpacity(0.9),
+                          ?.withOpacity(0.9),
                     ),
                     padding: EdgeInsets.all(10),
                     child: Text(

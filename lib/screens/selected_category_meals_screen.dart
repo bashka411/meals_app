@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/providers/meals_provider.dart';
 import 'package:flutter_complete_guide/widgets/meal_item.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data.dart';
-import '../models/meal.dart';
-
-class SelectedCategoryMealsScreen extends StatelessWidget {
+class SelectedCategoryMealsScreen extends ConsumerWidget {
   static const routeName = '/selected-category-screen';
 
-  List<Meal> availableMeals;
-  SelectedCategoryMealsScreen(this.availableMeals);
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final meals = ref.watch(mealsProvider);
     final routeArguments =
-        ModalRoute.of(context).settings.arguments as Map<String, Object>;
+        ModalRoute.of(context)?.settings.arguments as Map<String, Object>;
     final categoryId = routeArguments['categoryId'] as String;
     final categoryTitle = routeArguments['categoryTitle'] as String;
     final categoryColor = routeArguments['categoryColor'] as Color;
-    final categoryMeals = availableMeals.where((meal) {
+    final categoryMeals = meals.where((meal) {
       return meal.categoryId.contains(categoryId);
     }).toList();
 
@@ -35,7 +32,7 @@ class SelectedCategoryMealsScreen extends StatelessWidget {
         ),
         title: Text(
           categoryTitle,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
       ),
       body: Container(

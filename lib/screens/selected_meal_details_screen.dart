@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/providers/favourites_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data.dart';
 
-class SelectedMealDetailsScreen extends StatelessWidget {
+class SelectedMealDetailsScreen extends ConsumerWidget {
   static const routeName = '/selected-meal-details-screen';
-
-  final Function toggleFavourite;
-  final Function isMealFavourited;
-  SelectedMealDetailsScreen(this.toggleFavourite, this.isMealFavourited);
 
   Widget buildSectionTitle(BuildContext context, String text) {
     return Container(
@@ -20,28 +18,50 @@ class SelectedMealDetailsScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final arguments =
-        ModalRoute.of(context).settings.arguments as Map<String, Object>;
+        ModalRoute.of(context)?.settings.arguments as Map<String, Object>;
     final mealId = arguments['id'] as String;
     final categoryColor = arguments['categoryColor'] as Color;
     final meal = MEALS.firstWhere((meal) => meal.id == mealId);
 
+    final favouritedMeals = ref.watch(favoutiresProvider);
+    final isFavourite = favouritedMeals.contains(meal);
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () => toggleFavourite(mealId),
-        child: isMealFavourited(mealId)
-            ? Icon(
-                Icons.favorite_rounded,
-              )
-            : Icon(
-                Icons.favorite_outline_outlined,
-              ),
+        onPressed: () {
+          print(
+              '${ref.watch(favoutiresProvider.notifier).isMealFavourited(meal)}');
+          final wasAdded =
+              ref.read(favoutiresProvider.notifier).toggleFavouriteStatus(meal);
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                  wasAdded ? 'Added to favourites' : 'Removed from favourites'),
+            ),
+          );
+        },
+        child: AnimatedSwitcher(
+          duration: Duration(milliseconds: 1000),
+          child: Icon(
+            isFavourite
+                ? Icons.favorite_rounded
+                : Icons.favorite_outline_outlined,
+            key: ValueKey(isFavourite),
+          ),
+          transitionBuilder: (child, animation) => RotationTransition(
+            turns: Tween<double>(begin: 0.8, end: 1).animate(animation),
+            child: child,
+          ),
+        ),
         backgroundColor: Color.lerp(categoryColor, Colors.white, .3),
         elevation: 2,
       ),
       appBar: AppBar(
+        foregroundColor: Theme.of(context).textTheme.bodyLarge?.color,
         backgroundColor: Colors.white,
         centerTitle: true,
         flexibleSpace: Container(
@@ -55,7 +75,7 @@ class SelectedMealDetailsScreen extends StatelessWidget {
         title: FittedBox(
           child: Text(
             meal.title,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
       ),

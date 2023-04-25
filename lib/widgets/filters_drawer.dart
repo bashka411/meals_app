@@ -1,38 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '/models/filters.dart';
+import '/providers/filters_provider.dart';
 
-class FiltersDrawer extends StatefulWidget {
+class FiltersDrawer extends ConsumerStatefulWidget {
   @override
-  State<FiltersDrawer> createState() => _FiltersDrawerState();
-
-  final Function setFilters;
-  final Filters filters;
-  FiltersDrawer(this.setFilters, this.filters);
+  ConsumerState<FiltersDrawer> createState() => _FiltersDrawerState();
 }
 
-class _FiltersDrawerState extends State<FiltersDrawer> {
-  bool _isGlutenFree;
-  bool _isLactoseFree;
-  bool _isVegetarian;
-  bool _isVegan;
+class _FiltersDrawerState extends ConsumerState<FiltersDrawer> {
+  bool _isGlutenFree = false;
+  bool _isLactoseFree = false;
+  bool _isVegetarian = false;
+  bool _isVegan = false;
+  final filterProvider = null;
 
   @override
   void initState() {
-    _isGlutenFree = widget.filters.isGlutenFree;
-    _isLactoseFree = widget.filters.isLactoseFree;
-    _isVegetarian = widget.filters.isVegetarian;
-    _isVegan = widget.filters.isVegan;
+    final filterProvider = ref.watch(filtersProvider);
+    _isGlutenFree = filterProvider.isGlutenFree;
+    _isLactoseFree = filterProvider.isLactoseFree;
+    _isVegetarian = filterProvider.isVegetarian;
+    _isVegan = filterProvider.isVegan;
     super.initState();
   }
 
   SwitchListTile _buildSwitchListTile(
-      String title, String subtitle, bool valvalue, Function updateValue) {
+      String title, String subtitle, bool valvalue, /*Function updateValue*/) {
     return SwitchListTile(
       title: Text(title),
       subtitle: Text(subtitle),
       value: valvalue,
-      onChanged: updateValue,
+      onChanged: null /*updateValue*/,
     );
   }
 
@@ -44,7 +43,7 @@ class _FiltersDrawerState extends State<FiltersDrawer> {
       isVegan: _isVegan,
     );
 
-    widget.setFilters(filters);
+    // filters.setNewFilterSettings(filters);
 
     print('$filters');
   }
@@ -80,28 +79,28 @@ class _FiltersDrawerState extends State<FiltersDrawer> {
                   'Gluten-free',
                   'Exclude meals that contain gluten',
                   _isGlutenFree,
-                  (valvalue) => setState(() => _isGlutenFree = valvalue),
+                  //(valvalue) => setState(() => _isGlutenFree = valvalue),
                 ),
                 Divider(height: 0, thickness: 1),
                 _buildSwitchListTile(
                   'Lactose-free',
                   'Exclude meals that contain lactose',
                   _isLactoseFree,
-                  (valvalue) => setState(() => _isLactoseFree = valvalue),
+                  //(valvalue) => setState(() => _isLactoseFree = valvalue),
                 ),
                 Divider(height: 0, thickness: 1),
                 _buildSwitchListTile(
                   'Vegetarian',
                   'Exclude any meals that contain meat or fish',
                   _isVegetarian,
-                  (valvalue) => setState(() => _isVegetarian = valvalue),
+                  //(valvalue) => setState(() => _isVegetarian = valvalue),
                 ),
                 Divider(height: 0, thickness: 1),
                 _buildSwitchListTile(
                   'Vegan',
                   'Exclude any meals that contain animal products',
                   _isVegan,
-                  (valvalue) => setState(() => _isVegan = valvalue),
+                 // (valvalue) => setState(() => _isVegan = valvalue),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10),

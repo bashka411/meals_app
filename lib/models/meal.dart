@@ -1,4 +1,6 @@
-import 'package:flutter/foundation.dart';
+import 'package:uuid/uuid.dart';
+
+final uuid = Uuid();
 
 enum Complexity {
   Simple,
@@ -28,18 +30,17 @@ class Meal {
   final bool isVegetarian;
 
   Meal({
-    @required this.id,
-    @required this.categoryId,
-    @required this.title,
-    @required this.imageUrl,
-    @required this.ingredients,
-    @required this.steps,
-    @required this.duration,
-    @required this.complexity,
-    @required this.affordability,
-    @required this.isGlutenFree,
-    @required this.isLactoseFree,
-    @required this.isVegan,
-    @required this.isVegetarian,
-  });
+    required this.categoryId,
+    required this.title,
+    required this.imageUrl,
+    required this.ingredients,
+    required this.steps,
+    required this.duration,
+    required this.complexity,
+    required this.affordability,
+    required this.isGlutenFree,
+    required this.isLactoseFree,
+    required this.isVegan,
+    required this.isVegetarian,
+  }) : id = uuid.v1();
 }

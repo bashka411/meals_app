@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '/models/meal.dart';
-import '/models/filters.dart';
 import '/widgets/filters_drawer.dart';
 import 'categories_list_screen.dart';
 import 'favourites_screen.dart';
 
-class TabsScreen extends StatefulWidget {
+class TabsScreen extends ConsumerStatefulWidget {
   @override
-  State<TabsScreen> createState() => _TabsScreenState();
-  final List<Meal> availableMeals;
-  final List<Meal> favouriteMeals;
-  final Function setFilters;
-  final Filters filters;
-  TabsScreen(this.setFilters, this.availableMeals, this.filters, this.favouriteMeals);
+  ConsumerState<TabsScreen> createState() => _TabsScreenState();
 }
 
-class _TabsScreenState extends State<TabsScreen> {
+class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectedPageIndex = 0;
 
   void _selectPage(int index) {
@@ -29,24 +23,24 @@ class _TabsScreenState extends State<TabsScreen> {
   Widget build(BuildContext context) {
     final List<Map<String, Object>> _pages = [
       {
-        'page': CategoriesListScreen(widget.availableMeals),
+        'page': CategoriesListScreen(),
         'title': 'Categories',
       },
       {
-        'page': FavouritesScreen(widget.favouriteMeals),
+        'page': FavouritesScreen(),
         'title': 'Favourites',
       },
     ];
 
     return Scaffold(
       onEndDrawerChanged: (isOpened) => {},
-      endDrawer: FiltersDrawer(widget.setFilters, widget.filters),
+      endDrawer: FiltersDrawer(),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
           Builder(builder: (context) {
             return IconButton(
-              icon: Icon(Icons.filter_alt_rounded),
+              icon: Icon(Icons.filter_alt_rounded, color: Colors.white),
               onPressed: () => Scaffold.of(context).openEndDrawer(),
             );
           })
@@ -54,7 +48,7 @@ class _TabsScreenState extends State<TabsScreen> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
-          _pages[_selectedPageIndex]['title'],
+          _pages[_selectedPageIndex]['title'] as String,
           style: Theme.of(context).textTheme.bodyLarge,
         ),
         flexibleSpace: Container(
@@ -70,14 +64,14 @@ class _TabsScreenState extends State<TabsScreen> {
           ),
         ),
       ),
-      body: _pages[_selectedPageIndex]['page'],
+      body: _pages[_selectedPageIndex]['page'] as Widget,
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) => _selectPage(index),
         backgroundColor: Theme.of(context).primaryColor,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black54,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white54,
         currentIndex: _selectedPageIndex,
-        type: BottomNavigationBarType.shifting,
+        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
               backgroundColor: Theme.of(context).primaryColor,
@@ -90,59 +84,5 @@ class _TabsScreenState extends State<TabsScreen> {
         ],
       ),
     );
-    // return DefaultTabController(
-    //   length: 2,
-    //   child: Scaffold(
-    //     appBar: AppBar(
-    //       backgroundColor: Colors.white,
-    //       centerTitle: true,
-    //       title: Text(
-    //         'Pjortzence Meal Recipes',
-    //         style: Theme.of(context).textTheme.bodyLarge,
-    //       ),
-    //       flexibleSpace: Container(
-    //         decoration: BoxDecoration(
-    //           gradient: LinearGradient(
-    //               begin: Alignment.centerLeft,
-    //               end: Alignment.centerRight,
-    //               colors: [
-    //                 Theme.of(context).primaryColor.withOpacity(0.7),
-    //                 Theme.of(context).primaryColor
-    //               ]),
-    //         ),
-    //       ),
-    //       bottom: TabBar(
-    //         indicatorColor: Colors.black,
-    //         tabs: [
-    //           Tab(
-    //             child: Row(
-    //               mainAxisAlignment: MainAxisAlignment.center,
-    //               children: [
-    //                 Icon(Icons.category_rounded),
-    //                 SizedBox(width: 10),
-    //                 Text('Categories',
-    //                     style: Theme.of(context).textTheme.bodyMedium),
-    //               ],
-    //             ),
-    //           ),
-    //           Tab(
-    //             child: Row(
-    //               mainAxisAlignment: MainAxisAlignment.center,
-    //               children: [
-    //                 Icon(Icons.favorite_rounded),
-    //                 SizedBox(width: 10),
-    //                 Text('Favourites',
-    //                     style: Theme.of(context).textTheme.bodyMedium),
-    //               ],
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //     body: TabBarView(
-    //       children: [CategoriesListScreen(), FavouritesScreen()],
-    //     ),
-    //   ),
-    // );
   }
 }

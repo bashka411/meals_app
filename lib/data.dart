@@ -58,7 +58,6 @@ const CATEGORIES = const [
 
 var MEALS = [
   Meal(
-    id: 'm1',
     categoryId: [
       'c1',
       'c2',
@@ -92,7 +91,6 @@ var MEALS = [
     isLactoseFree: true,
   ),
   Meal(
-    id: 'm2',
     categoryId: [
       'c2',
     ],
@@ -120,7 +118,6 @@ var MEALS = [
     isLactoseFree: false,
   ),
   Meal(
-    id: 'm3',
     categoryId: [
       'c2',
       'c3',
@@ -152,7 +149,6 @@ var MEALS = [
     isLactoseFree: true,
   ),
   Meal(
-    id: 'm4',
     categoryId: [
       'c4',
     ],
@@ -187,7 +183,6 @@ var MEALS = [
     isLactoseFree: false,
   ),
   Meal(
-    id: 'm5',
     categoryId: [
       'c2'
           'c5',
@@ -223,7 +218,6 @@ var MEALS = [
     isLactoseFree: true,
   ),
   Meal(
-    id: 'm6',
     categoryId: [
       'c6',
       'c10',
@@ -259,7 +253,6 @@ var MEALS = [
     isLactoseFree: false,
   ),
   Meal(
-    id: 'm7',
     categoryId: [
       'c7',
     ],
@@ -290,7 +283,6 @@ var MEALS = [
     isLactoseFree: false,
   ),
   Meal(
-    id: 'm8',
     categoryId: [
       'c8',
     ],
@@ -323,7 +315,6 @@ var MEALS = [
     isLactoseFree: true,
   ),
   Meal(
-    id: 'm9',
     categoryId: [
       'c9',
     ],
@@ -372,7 +363,6 @@ var MEALS = [
     isLactoseFree: false,
   ),
   Meal(
-    id: 'm10',
     categoryId: [
       'c2',
       'c5',

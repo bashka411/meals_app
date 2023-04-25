@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
-import '/models/meal.dart';
 import '/screens/selected_category_meals_screen.dart';
 
 class CategoryItem extends StatelessWidget {
   final String id;
   final String title;
   final Color color;
-  final List<Meal> availableMeals;
 
-  CategoryItem({this.id, this.title, this.color, this.availableMeals});
-
-  int get getCategoryMealsAmount {
-    return availableMeals.where((meal) => meal.categoryId.contains(id)).length;
-  }
+  CategoryItem({required this.id, required this.title, required this.color});
 
   void showSelectedCategoryScreen(BuildContext context) {
     Navigator.of(context).pushNamed(
@@ -41,13 +35,6 @@ class CategoryItem extends StatelessWidget {
               child: Text(
                 title,
                 style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                getCategoryMealsAmount.toString(),
-                style: TextStyle(fontSize: 24),
               ),
             ),
           ],
